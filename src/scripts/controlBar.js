@@ -6,7 +6,7 @@
 			el,
 			hideTimeoutId,
 			stepTimeoutId,
-			recordLoop = ab.gameLoop({timestep: 1000/30}),
+			recordLoop = ab.gameLoop({timestep: 1000/15}),
 			canvasCopy = document.createElement("canvas"),
   			copyContext = canvasCopy.getContext("2d"),
 			gif,
@@ -129,7 +129,7 @@
 
 			onRecordUpdate = function(event){
 				console.log('frame');
-				gif.addFrame(createFrameImage(700, 270), {delay: 33});
+				gif.addFrame(createFrameImage(700, 270), {delay: 66.66666666});
 			},
 
 			createFrameImage = function(width, height){

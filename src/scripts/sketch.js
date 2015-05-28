@@ -5,42 +5,73 @@
 		var scene = three.scene(),
 			camera = three.camera(),
 			renderer = three.renderer(),
+			cubes = [],
 			container,
-			model,
-			previousModel,
 
 			init = function(){
-				var geometry = new THREE.BoxGeometry( 1, 1, 1 ),
-					material = new THREE.MeshLambertMaterial( { color: 0xffffff } ),
-					mesh = new THREE.Mesh( geometry, material ),
-					directionalLight = new THREE.DirectionalLight( 0xffffff );
+				
+				var geometry,
+					material,
+					mesh,
+					i,
+					numBoxes = 200,
+					boxWidth = 0.05,
+					boxDepth = 2,
+					container,
+					model,
+					previousModel,
+					keyLight = new THREE.DirectionalLight( 0xffffff ),
+					bounceLight = new THREE.DirectionalLight( 0xffffff, 0.3 );
 
 				container = new THREE.Object3D();
-				model = new THREE.Object3D();
-				previousModel = model.clone();
+
+				for(i = 0; i < numBoxes; i++){
+
+					geometry = new THREE.BoxGeometry( boxWidth, 1, boxDepth ),
+					material = new THREE.MeshPhongMaterial( { color: 0xFF3300, shininess: 100 } ),
+					mesh = new THREE.Mesh( geometry, material ),
+					
+					mesh.position.x = -4.5 + ( i * boxWidth );
+					mesh.rotation.x = ( i * 0.04 );
+
+					model = new THREE.Object3D();
+					previousModel = model.clone();
+
+					cubes.push({container:container, model:model, previousModel:previousModel});
 				
-				container.add(mesh);
+					container.add(mesh);
+
+				}
 				scene.add( container );
 
-				scene.add(directionalLight);
-				directionalLight.position.set( 1, 1, 1 );
+				scene.add(keyLight);
+				keyLight.position.set( 1, 1, 0.5 );
 
-				renderer.setClearColor( 0x333333 );
+				scene.add(bounceLight);
+				bounceLight.position.set( 1, -1, 1 );
+
+				renderer.setClearColor(0x2D4445);
 
 				camera.position.z = 3;
+			
 			},
 			
 			update = function(timestep){
-				var rotationVelocity = 0.001;
-				
-				model.clone(previousModel);
-				model.rotation.x += rotationVelocity * timestep;
-				model.rotation.y += rotationVelocity * timestep;
-				
+				var i,
+					cl = cubes.length, 
+					currentCube;
+
+				for(i = 0; i < cl; i++){
+
+					var currentCube = cubes[i].container;
+					currentCube.rotation.x -= 0.00004;
+
+				}
+
 			},
 			
 			draw = function(interpolation){
-				THREE.Quaternion.slerp ( previousModel.quaternion, model.quaternion, container.quaternion, interpolation );
+				
 			}
 
 		return{

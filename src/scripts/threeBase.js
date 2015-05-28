@@ -15,7 +15,7 @@
 			}()),
 
 			renderer = (function(){
-				var rnd = new THREE.WebGLRenderer();
+				var rnd = new THREE.WebGLRenderer({antialias:true});
 				return function(){
 					return rnd;
 				}
