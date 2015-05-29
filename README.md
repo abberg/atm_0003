@@ -1,3 +1,3 @@
-# datm_0003
+# atm_0003
 
 Undulating cube wave
